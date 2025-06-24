@@ -6,6 +6,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.itmentor.spring.boot_security.demo.DTO.UserDTO;
+import ru.itmentor.spring.boot_security.demo.DTO.UserMapper;
 import ru.itmentor.spring.boot_security.demo.model.User;
 import ru.itmentor.spring.boot_security.demo.service.UserServiceInterface;
 
@@ -16,8 +18,8 @@ public class RestUserController {
     private final UserServiceInterface userServiceInterface;
 
     @GetMapping
-    public ResponseEntity<User> getUser(@AuthenticationPrincipal User userPrincipal) {
+    public ResponseEntity<UserDTO> getUser(@AuthenticationPrincipal User userPrincipal) {
         User user = userServiceInterface.findUserById(userPrincipal.getId()).orElseThrow();
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(UserMapper.toDTO(user));
     }
 }
